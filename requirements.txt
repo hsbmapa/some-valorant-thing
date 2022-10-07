@@ -1,0 +1,4 @@
+InquirerPy==0.3.4
+requests==2.28.1
+asyncio==3.4.3
+riot_auth @ git+https://github.com/hsbmapa/python-riot-auth.git@fe74654b1941a90ebef8727efe73e5fce908bcda

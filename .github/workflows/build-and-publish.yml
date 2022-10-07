@@ -1,0 +1,45 @@
+name: Build & Publish
+
+on:
+  workflow_dispatch:
+    branches:
+      - 'main'
+
+jobs:
+  build-and-publush:
+    runs-on: windows-latest
+    steps:
+      - id: checkout
+        name: Checkout code 🛒
+        uses: actions/checkout@v3
+      
+      - id: setup-python
+        name: Setup Python 🐍
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+          cache-dependency-path: 'requirements.txt'
+
+      - id: install-dependencies
+        name: Install dependencies 📦
+        run: |
+          pip install -r requirements.txt
+          pip install cx_Freeze
+
+      - id: build
+        name: Build 🏗
+        run: |
+          python setup.py build
+
+      - id: set-output
+        name: Set output 📝
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - id: publish
+        name: Publish 🚀
+        uses: actions/upload-artifact@v3
+        with:
+          name: some-VALORANT-thing-${{ steps.set-output.outputs.sha_short }}
+          path: build/exe.win-amd64-3.10/**
