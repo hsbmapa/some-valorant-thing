@@ -29,7 +29,8 @@ def main():
         exit(1)
     if action == "instalock":
         client = ValorantClient()
-    
+
+        print(f"Hello {client.get_ingame_name()}")
         print(client.get_session_status())
         agent = input("Enter agent to lock: ")
         client.lock_agent(agent)

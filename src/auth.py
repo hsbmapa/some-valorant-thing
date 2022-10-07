@@ -55,7 +55,15 @@ class ValorantClient:
         self.access_token = auth.access_token
         self.entitlements_token = auth.entitlements_token
         self.user_id = auth.user_id
-
+        
+    def get_ingame_name(self):
+        url = "https://auth.riotgames.com/userinfo"
+        res = self.session.post(url, headers=self.session.headers, json={})
+        data = res.json()
+        name = data['acct']['game_name']+'#'+data['acct']['tag_line']
+        return name
+        
+        
     def set_region(self):
         url = "https://riot-geo.pas.si.riotgames.com/pas/v1/product/valorant"
         payload = {"id_token": self.id_token}
@@ -96,4 +104,5 @@ class ValorantClient:
 if __name__ == "__main__":
     agents = get_agents()
     maps = get_maps()
+    # client = ValorantClient()
     
